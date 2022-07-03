@@ -1,10 +1,16 @@
 import fs from 'fs';
+import path from 'path';
 import _ from 'lodash';
+import fileParse from './parsers.js';
+
+const getFormat = (filename) => path.extname(filename).slice(1);
+const getFullPath = (filename) => path.resolve(process.cwd(), filename);
+const getFileContent = (filename) => fs.readFileSync(getFullPath(filename), 'utf-8');
 
 const genDiff = (path1, path2) => {
   if (fs.existsSync(path1) && fs.existsSync(path2)) {
-    const obj1 = JSON.parse(fs.readFileSync(path1, 'utf-8'));
-    const obj2 = JSON.parse(fs.readFileSync(path2, 'utf-8'));
+    const obj1 = fileParse(getFileContent(path1), getFormat(path1));
+    const obj2 = fileParse(getFileContent(path2), getFormat(path2));
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
     const sortedKeys = _.union(keys1, keys2).sort();

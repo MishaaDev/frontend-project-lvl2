@@ -6,15 +6,21 @@ import genDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+const getFullPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => fs.readFileSync(getFullPath(filename), 'utf-8');
 
-const file1 = getFixturePath('flatFile1.json');
-const file2 = getFixturePath('flatFile2.json');
+const jsonFile1 = getFullPath('flatFile1.json');
+const jsonFile2 = getFullPath('flatFile2.json');
+const yamlFile1 = getFullPath('flatFile1.yaml');
+const yamlFile2 = getFullPath('flatFile2.yaml');
+const ymlFile2 = getFullPath('flatFile2.yml');
 const result = readFile('flatResult.txt');
 
-test('Two flat JSON files', () => {
-  expect(genDiff(file1, '')).toEqual(false);
-  expect(genDiff('', file2)).toEqual(false);
-  expect(genDiff(file1, file2)).toEqual(result);
+test('Two flat files', () => {
+  expect(genDiff(jsonFile1, '')).toEqual(false);
+  expect(genDiff('', jsonFile2)).toEqual(false);
+  expect(genDiff(jsonFile1, jsonFile2)).toEqual(result);
+  expect(genDiff(yamlFile1, yamlFile2)).toEqual(result);
+  expect(genDiff(jsonFile1, yamlFile2)).toEqual(result);
+  expect(genDiff(jsonFile1, ymlFile2)).toEqual(result);
 });
