@@ -4,6 +4,7 @@ import fileParse from './parsers.js';
 import generateTree from './generateTree.js';
 import stylish from './renders/stylish.js';
 import plain from './renders/plain.js';
+import json from './renders/json.js';
 
 const getFormat = (filename) => path.extname(filename).slice(1);
 const getFullPath = (filename) => path.resolve(process.cwd(), filename);
@@ -19,6 +20,8 @@ const genDiff = (path1, path2, format = 'stylish') => {
         return stylish(tree);
       case 'plain':
         return plain(tree);
+      case 'json':
+        return json(tree);
       default:
         throw new Error('Format is not defined.');
     }
