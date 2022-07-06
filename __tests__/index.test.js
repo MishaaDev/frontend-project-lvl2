@@ -14,19 +14,24 @@ const jsonFile2 = getFullPath('file2.json');
 const yamlFile1 = getFullPath('file1.yaml');
 const yamlFile2 = getFullPath('file2.yaml');
 const ymlFile2 = getFullPath('file2.yml');
-const result = readFile('result.txt');
+const resultStylish = readFile('resultStylish.txt');
+const resultPlain = readFile('resultPlain.txt');
 
-test('With missing path', () => {
+test('empty value', () => {
   expect(genDiff(jsonFile1, '')).toEqual(false);
   expect(genDiff('', jsonFile2)).toEqual(false);
 });
 
-test('With same format', () => {
-  expect(genDiff(jsonFile1, jsonFile2)).toEqual(result);
-  expect(genDiff(yamlFile1, yamlFile2)).toEqual(result);
+test('stylish render', () => {
+  expect(genDiff(jsonFile1, jsonFile2)).toEqual(resultStylish);
+  expect(genDiff(yamlFile1, yamlFile2)).toEqual(resultStylish);
+  expect(genDiff(jsonFile1, yamlFile2)).toEqual(resultStylish);
+  expect(genDiff(jsonFile1, ymlFile2)).toEqual(resultStylish);
 });
 
-test('With different format', () => {
-  expect(genDiff(jsonFile1, yamlFile2)).toEqual(result);
-  expect(genDiff(jsonFile1, ymlFile2)).toEqual(result);
+test('plain render', () => {
+  expect(genDiff(jsonFile1, jsonFile2, 'plain')).toEqual(resultPlain);
+  expect(genDiff(yamlFile1, yamlFile2, 'plain')).toEqual(resultPlain);
+  expect(genDiff(jsonFile1, yamlFile2, 'plain')).toEqual(resultPlain);
+  expect(genDiff(jsonFile1, ymlFile2, 'plain')).toEqual(resultPlain);
 });
