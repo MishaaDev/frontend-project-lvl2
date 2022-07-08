@@ -26,18 +26,23 @@ const renderTree = (nodes) => {
     } = node;
 
     switch (type) {
-      case 'nested':
+      case 'nested': {
         return `\n${makeIndent(depth)}  ${key}: {${children.map((e) => iteration(e, depth + 1)).join('')}\n${makeIndent(depth)}  }`;
-      case 'deleted':
+      }
+      case 'deleted': {
         return `\n${makeIndent(depth)}- ${key}: ${makeString(value, depth + 1)}`;
-      case 'added':
+      }
+      case 'added': {
         return `\n${makeIndent(depth)}+ ${key}: ${makeString(value, depth + 1)}`;
-      case 'changed':
+      }
+      case 'changed': {
         const added = `\n${makeIndent(depth)}+ ${key}: ${makeString(addedValue, depth + 1)}`;
         const removed = `\n${makeIndent(depth)}- ${key}: ${makeString(removedValue, depth + 1)}`;
         return `${removed}${added}`;
-      case 'unchanged':
+      }
+      case 'unchanged': {
         return `\n${makeIndent(depth)}  ${key}: ${makeString(value, depth + 1)}`;
+      }
       default:
         return null;
     }

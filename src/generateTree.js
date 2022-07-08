@@ -3,7 +3,7 @@ import _ from 'lodash';
 const generateTree = (obj1, obj2) => {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
-  const sortedKeys = _.union(keys1, keys2).sort();
+  const sortedKeys = _.sortBy(_.union(keys1, keys2));
   const result = sortedKeys.map((key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
